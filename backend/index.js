@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/todo", async function(req, res) {
+app.post("/todo", async function (req, res) {
     const createPayload = req.body;
     const parsedPayload = createTodo.safeParse(createPayload);
 
@@ -38,7 +38,7 @@ app.post("/todo", async function(req, res) {
 //     res.json({ todos });
 
 // })
-app.get("/todos", async function(req, res) {
+app.get("/todos", async function (req, res) {
     try {
         const todos = await todo.find({});
         console.log(todos); // Log todos to console
@@ -48,7 +48,8 @@ app.get("/todos", async function(req, res) {
     }
 });
 
-app.put("/completed", async function(req, res) {
+app.put("/completed", async function (req, res) {
+    console.log(req.body);
     const updatePayload = req.body;
     const parsedPayload = updateTodo.safeParse(updatePayload);
     if (!parsedPayload.success) {
@@ -58,10 +59,10 @@ app.put("/completed", async function(req, res) {
         return;
     }
 
-    await todo.update({
+    await todo.updateOne({
         _id: req.body.id
     }, {
-      completed: true  
+        completed: true
     })
 
     res.json({
